@@ -1,54 +1,83 @@
+'use client'
+
 import Image from "next/image";
+import ChatIcon, { ChatType } from "./components/ChatIcon";
+import { useState } from "react";
+import Song, { songType } from "./components/Song";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [selectedChatId, setSelectedChatId] = useState<string|null>(null)
+  
+  const handleChatSelect = (chatId:string) => {
+    setSelectedChatId(chatId)
+  }
+  
+  let dummyChat:ChatType = {
+    chatID: "B7pq6f7R2KoiC3PXUO32",
+    createdAt: "",
+    SenderID: "31jmro3kvy56tabdviyqs5hc3ncu",
+    SenderName: "Lumen Umbra",
+    SenderPfpUrl: "https://i.scdn.co/image/ab6775700000ee856a7012904a326176e367d3d2", 
+    RecieverID: "xvj0a46uog6yt7jtqf76ved9q",
+    RecieverName: "Trullycool",
+    RecieverPfpUrl: "https://i.scdn.co/image/ab6775700000ee858452d6e47f08b8f4981129be",
+    CaughtUp: false
+  }
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  let dummyChat2:ChatType = {
+    chatID: "3vEsEo5t0mUIfxyShokm",
+    createdAt: "",
+    SenderID: "31jmro3kvy56tabdviyqs5hc3ncu",
+    SenderName: "Lumen Umbra",
+    SenderPfpUrl: "https://i.scdn.co/image/ab6775700000ee858452d6e47f08b8f4981129be",
+    RecieverID: "xvj0a46uog6yt7jtqf76ved9q",
+    RecieverName: "Trullycool",
+    RecieverPfpUrl: "https://i.scdn.co/image/ab6775700000ee856a7012904a326176e367d3d2", 
+    CaughtUp: false
+  }
+  
+  let chats = [dummyChat, dummyChat2]
+
+  let dummysong:songType = {
+    trackID: "2lJDPzwiJvHKJiPhEtxsxb",
+    trackName: "Ugly Elvis",
+    trackAuthor: "Saint Blonde",
+    trackImage: "https://i.scdn.co/image/ab67616d0000b273cccf8a3b188cb5bf5db760a5",
+    timeAdded: "",
+    timeRated: "",
+    rated: true,
+    rating: 1,
+    comment: ""
+  }
+
+  let dummysong2:songType = {
+    trackID: "4im3ChukelYoNOW4ZjJOVM",
+    trackName: "Right?",
+    trackAuthor: "flipturn",
+    trackImage: "https://i.scdn.co/image/ab67616d00001e02dbce5fb8b86ce78cc8e8d541",
+    timeAdded: "",
+    timeRated: "",
+    rated: false,
+    rating: 0,
+    comment: ""
+  }
+
+  let songs = [dummysong, dummysong2]
+  
+  return (
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen pb-20 gap-16 font-[family-name:var(--font-geist-sans)]">
+      <main className="flex flex-col gap-[4px] row-start-2 items-center w-[500px] h-full sm:items-start">
+        <div className="flex flex-row items-end h-24 ">
+          {chats.map((chat) => (
+            <ChatIcon key={chat.chatID} chat={chat} selected={chat.chatID == selectedChatId} onClick={() => handleChatSelect(chat.chatID)} />
+          ))}
+          <button className="w-20 h-20 m-2 rounded-xl bg-gray-800 hover:scale-110">new chat</button>
+        </div>
+        <div className="w-full bg-amber-50 h-[1px] bg-gradient-to-r from-[#0a0a0a] via-gray-50 to-[#0a0a0a]"></div>
+        <div>
+          {songs.map((song) => (
+            <Song song={song} key={song.trackID}/> //lol this is bad
+          ))}
         </div>
       </main>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
